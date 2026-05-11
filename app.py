@@ -1,37 +1,33 @@
-#!/usr/bin/env python
-import os
-import sys
-import warnings
+from flask import Flask, render_template, request
+from dotenv import load_dotenv
 from datetime import datetime
+import markdown
+import os
 
-# Set API keys directly from .env file
-os.environ['GEMINI_API_KEY'] = 'AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8'
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8'
+load_dotenv()
+os.environ["GEMINI_API_KEY"]="AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
+os.environ["GOOGLE_API_KEY"]="AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
 
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
+app = Flask(__name__)
 
-def run():
-    from src.myagents.crew import Myagents
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/generate', methods=['POST'])
+def generate():
+    topic = request.form.get('topic', '')
+    if not topic:
+        return render_template('index.html', error='Please enter a topic')
     
-    if len(sys.argv) < 2:
-        print("Usage: python app.py \"your topic here\"")
-        sys.exit(1)
-    
-    topic = sys.argv[1]
-    inputs = {
-        'topic': topic,
-        'current_year': str(datetime.now().year)
-    }
-
     try:
+        from myagents.crew import Myagents
+        inputs = {'topic': topic, 'current_year': str(datetime.now().year)}
         result = Myagents().crew().kickoff(inputs=inputs)
-        print("\n\n########################")
-        print("## FINAL OUTPUT ##")
-        print("########################\n")
-        print(result.raw)
+        content_html = markdown.markdown(result.raw)
+        return render_template('result.html', topic=topic, content=content_html)
     except Exception as e:
-        print(f"An error occurred while running the crew: {e}")
-        sys.exit(1)
+        return render_template('index.html', error=str(e))
 
-if __name__ == "__main__":
-    run()
+if __name__ == '__main__':
+    app.run(debug=True)
