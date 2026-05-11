@@ -1,7 +1,6 @@
-gunicorn
-flask
-crewai
-crewai-tools
+flask==3.0.0
 python-dotenv
 markdown
+gunicorn
+crewai
 google-generativeai
