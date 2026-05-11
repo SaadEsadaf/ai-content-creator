@@ -5,8 +5,8 @@ import markdown
 import os
 
 load_dotenv()
-os.environ["GEMINI_API_KEY"]="AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
-os.environ["GOOGLE_API_KEY"]="AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
+os.environ["GEMINI_API_KEY"] = "AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
+os.environ["GOOGLE_API_KEY"] = "AIzaSyA-tO_PiNm7NZpZOXFvX8GqeihsCTnnVb8"
 
 app = Flask(__name__)
 
@@ -19,7 +19,6 @@ def generate():
     topic = request.form.get('topic', '')
     if not topic:
         return render_template('index.html', error='Please enter a topic')
-    
     try:
         from myagents.crew import Myagents
         inputs = {'topic': topic, 'current_year': str(datetime.now().year)}
@@ -31,3 +30,4 @@ def generate():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
