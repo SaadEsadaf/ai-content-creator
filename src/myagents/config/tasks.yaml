@@ -1,0 +1,36 @@
+research_task:
+  description: >
+    Conduct a thorough research about {topic}.
+    Identify key trends, breakthrough technologies, and potential industry impacts.
+    Make sure you find any interesting and relevant information given
+    the current year is {current_year}.
+  expected_output: >
+    A comprehensive set of research findings with detailed bullet points 
+    covering all important aspects of {topic}.
+  agent: researcher
+
+writing_task:
+  description: >
+    Review the research findings and write a full, high-quality SEO blog post about {topic}.
+    The post should include:
+    - A catchy H1 title
+    - An introduction that hooks the reader
+    - Several detailed sections with H2 and H3 headings
+    - A conclusion with a call to action
+    - Naturally integrated keywords related to {topic}
+  expected_output: >
+    A fully written SEO blog post in markdown format.
+  agent: writer
+
+social_media_task:
+  description: >
+    Combine the blog post with a new set of social media posts. 
+    Your final output should first contain the full blog post, followed by 
+    the following social media posts:
+    - Twitter: A thread of 3-5 punchy tweets summarizing the key points.
+    - LinkedIn: A professional post highlighting the main insights and encouraging discussion.
+    - Instagram: A catchy caption with suggested hashtags and a visual description.
+  expected_output: >
+    Social media posts for Twitter, LinkedIn, and Instagram, clearly separated and 
+    formatted for each platform.
+  agent: social_media_manager
